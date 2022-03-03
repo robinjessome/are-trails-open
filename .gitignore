@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.cache/
+public
+
+# ignore .env files except for the example environment
+.env.*
+!.env.example
