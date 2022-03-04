@@ -33,7 +33,7 @@ function HomePage({trailStatusAPIId, trailName}) {
 
   if(isLoading) return null;
 
-  if (!data) return <div className="mt-auto"></div>
+  if (!data) return <div className="mt-auto">...</div>
   
   return (
       <>
@@ -42,9 +42,8 @@ function HomePage({trailStatusAPIId, trailName}) {
         </Head>
         <div className="mt-auto">
           <div className="text-center">
-            <Image src="/img/hydrocut-logo_sm.png" width="200" height="140" alt="" />
+            <Image src="/img/logo.png" width="200" height="140" alt="" />
           </div>
-          {/* {isLoading && <div className="mt-8 text-center">loading...</div>} */}
           {!isLoading && (
             <>
               {statusMessage &&
@@ -56,7 +55,7 @@ function HomePage({trailStatusAPIId, trailName}) {
                 }
                 <div className="flex justify-between items-center mt-2">
                   {updatedAt && 
-                    <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toDateString()}</strong></p>
+                    <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toDateString()}</strong>{process.env.customKey}</p>
                   }
                   {postLink &&
                     <a href={postLink} className="text-slate-500 hover:text-sky-600" target="_blank" rel="noreferrer">
@@ -78,7 +77,7 @@ function HomePage({trailStatusAPIId, trailName}) {
 export async function getStaticProps(context) {
   return {
     props: {
-      trailName: process.env.TRAIL_NAME,
+      trailName: process.env.trailName,
       trailStatusAPIId: process.env.TRAILSTATUS_API_ID
     },
   }
