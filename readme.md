@@ -8,3 +8,4 @@ Just a little Next.js practice, leveraging an existing API endpoint from [trails
 
 ## TODO
 - config for trail name, logo, etc.
+- darkmode / toggle

@@ -52,7 +52,7 @@ function HomePage({trailStatusAPIId, trailName}) {
                 }
                 <div className="flex justify-between items-center mt-2">
                   {updatedAt && 
-                    <p className="text-xs text-slate-500">Last update: <strong>{updatedDate.toDateString()}</strong></p>
+                    <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toDateString()}</strong></p>
                   }
                   {postLink &&
                     <a href={postLink} className="text-slate-500 hover:text-sky-600" target="_blank" rel="noreferrer">
@@ -71,7 +71,6 @@ function HomePage({trailStatusAPIId, trailName}) {
     )
   }
 
-  
 export async function getStaticProps(context) {
   return {
     props: {
@@ -81,4 +80,4 @@ export async function getStaticProps(context) {
   }
 }
 
-  export default HomePage
+export default HomePage
