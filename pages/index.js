@@ -25,15 +25,14 @@ function HomePage({trailStatusAPIId, trailName}) {
 
   let statusMessage, border;
   if(data?.status === 'open') {
-    border = 'border-color-green-500';
+    border = 'border-green-500';
     statusMessage = 'Yes, '+trailName+' is <strong>Open</strong>!';
   } else {
-    border = 'border-color-red-500';
+    border = 'border-red-500';
     statusMessage = 'No, '+trailName+' is closed...';
   }
 
-  // if (isLoading) return <p>Loading...</p>
-  // if (!data) return <p>No profile data</p>
+console.log(border);
 
     return (
       <>
@@ -52,7 +51,7 @@ function HomePage({trailStatusAPIId, trailName}) {
               }
               <div className="text-center">
                 {message &&
-                  <p className={`border text-lg mb-2 bg-white py-2 px-4 rounded`}>{message}</p>
+                  <p className={`border text-lg mb-2 bg-white py-2 px-4 rounded ${border}`}>{message}</p>
                 }
                 <div className="flex justify-between items-center mt-2">
                   {updatedAt && 
