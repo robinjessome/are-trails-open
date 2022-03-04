@@ -25,7 +25,7 @@ function HomePage({trailStatusAPIId, trailName}) {
   let statusMessage, border;
   if(data?.status === 'open') {
     border = 'border-green-500';
-    statusMessage = 'Yes, '+trailName+' is <strong>Open</strong>!';
+    statusMessage = 'Yes, '+trailName+' is <strong>open</strong>!';
   } else {
     border = 'border-red-500';
     statusMessage = 'No, '+trailName+' is closed...';
