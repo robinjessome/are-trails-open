@@ -5,6 +5,9 @@
 @layer base {
 
     body, html {
-        @apply bg-gray-100 font-light antialiased
+        @apply bg-slate-100 font-light antialiased
+    }
+    strong {
+        @apply font-bold
     }
 }
