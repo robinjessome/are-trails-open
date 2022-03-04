@@ -27,7 +27,8 @@ function HomePage({trailStatusAPIId, trailName}) {
           </div>
           <h1 className="text-center text-5xl mb-12">{trailName} is <span className="font-bold">{data?.status}</span></h1>
           <div className="text-center">
-            {data?.message}
+            <p className="text-lg mb-4">{data?.message}</p>
+            <p className="text-sm">{data?.updatedAt}</p>
           </div>
         </div>
       </>
