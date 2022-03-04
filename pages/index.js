@@ -16,7 +16,6 @@ function HomePage({trailStatusAPIId, trailName}) {
       })
   }, [trailStatusAPIId])
 
-  // const status = data?.status;
   const message = data?.message
   const updatedAt = data?.updatedAt;
   const updatedDate = new Date(updatedAt);
@@ -31,8 +30,6 @@ function HomePage({trailStatusAPIId, trailName}) {
     border = 'border-red-500';
     statusMessage = 'No, '+trailName+' is closed...';
   }
-
-console.log(border);
 
     return (
       <>
