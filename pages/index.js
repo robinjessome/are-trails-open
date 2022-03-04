@@ -31,7 +31,11 @@ function HomePage({trailStatusAPIId, trailName}) {
     statusMessage = 'No, '+trailName+' is closed...';
   }
 
-    return (
+  if(isLoading) return null;
+
+  if (!data) return <div className="mt-auto"></div>
+  
+  return (
       <>
         <Head>
           <title>Is {trailName} open?</title>
