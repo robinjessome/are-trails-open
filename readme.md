@@ -1,1 +1,1 @@
-# Trails!
+# Trails...are they open!?
