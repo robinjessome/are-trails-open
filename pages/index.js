@@ -40,7 +40,7 @@ function HomePage({trailStatusAPIId, trailName}) {
         <Head>
           <title>Is {trailName} open?</title>
         </Head>
-        <div className="mt-auto">
+        <div className="mt-auto text-slate-900 dark:text-slate-300">
           <div className="text-center">
             <Image src="/img/logo.png" width="200" height="140" alt="" />
           </div>
@@ -51,11 +51,11 @@ function HomePage({trailStatusAPIId, trailName}) {
               }
               <div className="text-center">
                 {message &&
-                  <p className={`border text-lg mb-2 bg-white py-2 px-4 rounded ${border}`}>{message}</p>
+                  <p className={`border text-lg mb-2 bg-white py-2 px-4 rounded dark:bg-slate-800 ${border}`}>{message}</p>
                 }
                 <div className="flex justify-between items-center mt-2">
                   {updatedAt && 
-                    <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toDateString()}</strong>{process.env.customKey}</p>
+                    <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toLocaleString()}</strong>{process.env.customKey}</p>
                   }
                   {postLink &&
                     <a href={postLink} className="text-slate-500 hover:text-sky-600" target="_blank" rel="noreferrer">

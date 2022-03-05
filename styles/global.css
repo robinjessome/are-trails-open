@@ -4,7 +4,7 @@
 
 @layer base {
     body, html {
-        @apply bg-slate-100 font-light antialiased
+        @apply antialiased
     }
     strong {
         @apply font-bold
