@@ -10,4 +10,3 @@ Just a little Next.js practice, leveraging an existing API endpoint from [trails
 
 ## TODO
 - handle regions/trails for partial open/close
-- darkmode / toggle

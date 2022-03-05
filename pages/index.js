@@ -17,8 +17,7 @@ function HomePage({trailStatusAPIId, trailName}) {
   }, [trailStatusAPIId])
 
   const message = data?.message
-  const updatedAt = data?.updatedAt;
-  const updatedDate = new Date(updatedAt);
+  const updatedDate = new Date(data?.updatedAt);
   const postLink = data?.instagramPermalink;
   const username = data?.user.username;
 
@@ -40,7 +39,7 @@ function HomePage({trailStatusAPIId, trailName}) {
         <Head>
           <title>Is {trailName} open?</title>
         </Head>
-        <div className="mt-auto text-slate-900 dark:text-slate-300">
+        <div className="mt-auto text-slate-900 dark:text-slate-300 p-4">
           <div className="text-center">
             <Image src="/img/logo.png" width="200" height="140" alt="" />
           </div>
@@ -53,8 +52,8 @@ function HomePage({trailStatusAPIId, trailName}) {
                 {message &&
                   <p className={`border text-lg mb-2 bg-white py-2 px-4 rounded dark:bg-slate-800 ${border}`}>{message}</p>
                 }
-                <div className="flex justify-between items-center mt-2">
-                  {updatedAt && 
+                <div className="md:flex justify-between items-center mt-2">
+                  {updatedDate && 
                     <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toLocaleString()}</strong>{process.env.customKey}</p>
                   }
                   {postLink &&
