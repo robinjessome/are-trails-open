@@ -1,4 +1,7 @@
 {
+  "name": "@are-the-trails-open/workspace",
+  "repository": "git@github.com:robinjessome/are-trails-open.git",
+  "author": "Robin Jessome <robinjessome@gmail.com>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

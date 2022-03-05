@@ -54,7 +54,7 @@ function HomePage({trailStatusAPIId, trailName}) {
                 }
                 <div className="md:flex justify-between items-center mt-2">
                   {updatedDate && 
-                    <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toLocaleString()}</strong>{process.env.customKey}</p>
+                    <p className="text-xs text-slate-500">Last updated: <strong>{updatedDate.toLocaleString()}</strong></p>
                   }
                   {postLink &&
                     <a href={postLink} className="text-slate-500 hover:text-sky-600" target="_blank" rel="noreferrer">
