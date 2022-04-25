@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
+import { IconCheck, IconX, IconBrandInstagram } from '@tabler/icons';
 
 function HomePage({trailStatusAPIId, trailName}) {
   const [data, setData] = useState(null)
@@ -16,12 +17,13 @@ function HomePage({trailStatusAPIId, trailName}) {
       })
   }, [trailStatusAPIId])
 
+  let statusMessage, border, trails;
+
   const message = data?.message
   const updatedDate = new Date(data?.updatedAt);
   const postLink = data?.instagramPermalink;
   const username = data?.user.username;
 
-  let statusMessage, border;
   if(data?.status === 'open') {
     border = 'border-green-500';
     statusMessage = 'Yes, '+trailName+' is <strong>open</strong>!';
@@ -46,9 +48,37 @@ function HomePage({trailStatusAPIId, trailName}) {
           {!isLoading && (
             <>
               {statusMessage &&
-                <h1 className="text-center text-5xl mt-12 mb-8" dangerouslySetInnerHTML={{  __html: statusMessage }}></h1>
+                <h1 className="text-center text-5xl mt-12" dangerouslySetInnerHTML={{  __html: statusMessage }}></h1>
               }
-              <div className="text-center">
+              {data?.trails && (
+                <div className="mt-6">
+                  <p className="text-center">
+
+                  {data.trails?.map((trail) => {
+                    console.log(trail);
+                    let trailOpen = true;
+                    let trailStatus = 'border-green-500 text-green-600 font-medium'
+                    if (trail.status == 'closed') {
+                      trailOpen = false;
+                      trailStatus = 'border-slate-300 dark:border-slate-600 text-slate-500 opacity-50';
+                    }
+                    return (
+                      <span 
+                      key={trail.id} 
+                      className={`inline-block mx-2 px-4 py-1 rounded border ${trailStatus}`}>
+                        {trailOpen
+                          ? <IconCheck className="w-4 inline-block mr-2 relative -top-[1px]" />
+                        : <IconX className="w-4 inline-block mr-2 relative -top-[1px]" />
+                        }                      
+                          {trail.name} 
+                      </span>
+                    );
+                  }
+                  )}
+                  </p>
+                </div>
+              )}
+              <div className="text-center mt-8">
                 {message &&
                   <p className={`border text-lg mb-2 bg-white py-2 px-4 rounded dark:bg-slate-800 ${border}`}>{message}</p>
                 }
@@ -59,7 +89,7 @@ function HomePage({trailStatusAPIId, trailName}) {
                   {postLink &&
                     <a href={postLink} className="text-slate-500 hover:text-sky-600" target="_blank" rel="noreferrer">
                       <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 inline-block mr-1 relative -top-[1px]"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <IconBrandInstagram className="w-6 mr-1 inline-block relative -top-[1px]" />
                         {username}
                       </span>
                     </a>
