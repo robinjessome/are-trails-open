@@ -3,4 +3,4 @@ node_modules/
 
 # ignore .env files except for the example environment
 .env.*
-!.env.example
+!.env.local
