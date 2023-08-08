@@ -40,6 +40,7 @@ function HomePage({trailStatusAPIId, trailName}) {
       <>
         <Head>
           <title>Is {trailName} open?</title>
+          <link rel="manifest" href="/public/manifest.json"></link>
         </Head>
         <div className="mt-auto text-slate-900 dark:text-slate-300 p-4 max-w-2xl">
           <div className="text-center">
