@@ -43,7 +43,7 @@ function HomePage({trailStatusAPIId, trailName}) {
         </Head>
         <div className="mt-auto text-slate-900 dark:text-slate-300 p-4 max-w-2xl">
           <div className="text-center">
-            <Image src="/img/logo.png" width="200" height="140" alt="" />
+            <Image src="img/logo.png" width="200" height="140" alt="" />
           </div>
           {!isLoading && (
             <>
