@@ -4,3 +4,7 @@ node_modules/
 # ignore .env files except for the example environment
 .env.*
 !.env.local
+# ignore generated sw files
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js

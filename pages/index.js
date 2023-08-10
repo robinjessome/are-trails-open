@@ -9,6 +9,18 @@ function HomePage({trailStatusAPIId, trailName}) {
 
   useEffect(() => {
     setLoading(true)
+    // Notification permissions managing
+if(Notification.permission === 'denied'){
+  console.log("Notification permissions already denied so no request sent");
+}
+if(Notification.permission === 'default'){
+  // Notification.requestPermission currently not working so it is commented but permission detection works
+  // Notification.requestPermission();
+  console.log("Notification permissions requested due to them being set to default settings(denied)");
+}
+if(Notification.permission === 'granted'){
+  console.log("notification permissions set to granted so no request sent");
+}
     fetch('https://api.trailstatusapp.com/regions/status?id='+trailStatusAPIId)
       .then((res) => res.json())
       .then((data) => {
