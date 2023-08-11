@@ -15,7 +15,9 @@ if(Notification.permission === 'denied'){
 }
 if(Notification.permission === 'default'){
   // Notification.requestPermission currently not working so it is commented but permission detection works
-  // Notification.requestPermission();
+  Notification.requestPermission().then(function(permission){
+    console.log("Permission", permission);
+  });
   console.log("Notification permissions requested due to them being set to default settings(denied)");
 }
 if(Notification.permission === 'granted'){
@@ -55,7 +57,7 @@ if(Notification.permission === 'granted'){
         </Head>
         <div className="mt-auto text-slate-900 dark:text-slate-300 p-4 max-w-2xl">
           <div className="text-center">
-            <Image src="img/logo.png" width="200" height="140" alt="" />
+          <Image src="/img/icons/logo.png" width="200" height="140" alt="" />
           </div>
           {!isLoading && (
             <>
