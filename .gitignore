@@ -5,7 +5,4 @@ node_modules/
 **/public/workbox-*.js
 **/public/sw.js
 **/public/worker-*.js
-.env.local
-public/workbox-8f0e986c.js.map
-public/sw.js
-public/sw.js.map
+
