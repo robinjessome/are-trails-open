@@ -1,10 +1,11 @@
+# ignore .env files except for the example environment
 node_modules/
 .next/
-
-# ignore .env files except for the example environment
 .env.*
-!.env.local
-# ignore generated sw files
 **/public/workbox-*.js
 **/public/sw.js
 **/public/worker-*.js
+.env.local
+public/workbox-8f0e986c.js.map
+public/sw.js
+public/sw.js.map

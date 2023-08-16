@@ -14,7 +14,8 @@
     "next-pwa": "^5.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "sharp": "^0.32.4"
+    "sharp": "^0.32.4",
+    "web-push": "^3.6.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
