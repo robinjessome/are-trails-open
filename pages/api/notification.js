@@ -2,38 +2,28 @@ const webPush = require('web-push')
 
 import { kv } from '@vercel/kv';
 
-async function setKV(keyName, value) {
-  try {
-    await kv.set(keyName, value, { ex: 100, nx: true });
-  } catch (error) {
-    // Handle errors
-  }
-}
-
-async function readKV(keyName) {
-  try {
-    const getExample = await kv.get(keyName);
-    console.log(getExample);
-  } catch (error) {
-    // Handle errors
-  }
-}
 async function addKVList(keyName, value) {
   // If endpoint is the same as last element added to the list, change key values instead of adding new ones
   try {
     await kv.lpush(keyName, value);
-  } catch (error) { }
+  } catch (error) { 
+    console.log("error in adding to kv list: ", error);
+  }
 }
 async function readKVList(keyName, startIndex, endIndex){
   try {
     const getListExample = await kv.lrange(keyName, startIndex, endIndex);
     console.log(getListExample);
-  } catch(error){}
+  } catch(error){
+    console.log("error in reading kv list: ", error)
+  }
 }
 async function clearKVList(){
-    await kv.del('subEndpoints');
-    await kv.del('subAuthKeys');
-    await kv.del('subP256dhKeys');
+  try{
+    await kv.del('subs');
+  } catch(error) {
+    console.log("error in deleting kv list: ", error);
+  }
 }
 webPush.setVapidDetails(
   `mailto:${process.env.WEB_PUSH_EMAIL}`,
@@ -44,13 +34,7 @@ webPush.setVapidDetails(
 const Notification = (req, res) => {
   if (req.method == 'POST') {
     const { subscription } = req.body
-    console.log(req.body);
-    console.log(req.body.subscription.endpoint);
-    console.log(req.body.subscription.keys.auth);
-    console.log(req.body.subscription.keys.p256dh);
-    addKVList('subEndpoints', req.body.subscription.endpoint);
-    addKVList('subAuthKeys', req.body.subscription.keys.auth);
-    addKVList('subP256dhKeys', req.body.subscription.keys.p256dh);
+    addKVList('subs', req.body);
     // clearKVList();
     webPush
       .sendNotification(
@@ -73,9 +57,7 @@ const Notification = (req, res) => {
     res.statusCode = 405
     res.end()
   }
-  console.log(readKVList('subEndpoints', 0, 10));
-  console.log(readKVList('subAuthKeys', 0, 10));
-  console.log(readKVList('subP256dhKeys', 0, 10));
+  console.log(readKVList('subs', 0, 2));
 }
 
 export default Notification
