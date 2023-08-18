@@ -1,24 +1,40 @@
 const webPush = require('web-push')
 
 import { kv } from '@vercel/kv';
- 
-async function exampleCommands() {
+
+async function setKV(keyName, value) {
   try {
-    await kv.set('setExample', 'abc123', { ex: 100, nx: true });
-  } catch (error) {
-    // Handle errors
-  }
-}
- 
-async function exampleCommands2() {
-  try {
-    const getExample = await kv.get('setExample');
-    console.log(getExample);
+    await kv.set(keyName, value, { ex: 100, nx: true });
   } catch (error) {
     // Handle errors
   }
 }
 
+async function readKV(keyName) {
+  try {
+    const getExample = await kv.get(keyName);
+    console.log(getExample);
+  } catch (error) {
+    // Handle errors
+  }
+}
+async function addKVList(keyName, value) {
+  // If endpoint is the same as last element added to the list, change key values instead of adding new ones
+  try {
+    await kv.lpush(keyName, value);
+  } catch (error) { }
+}
+async function readKVList(keyName, startIndex, endIndex){
+  try {
+    const getListExample = await kv.lrange(keyName, startIndex, endIndex);
+    console.log(getListExample);
+  } catch(error){}
+}
+async function clearKVList(){
+    await kv.del('subEndpoints');
+    await kv.del('subAuthKeys');
+    await kv.del('subP256dhKeys');
+}
 webPush.setVapidDetails(
   `mailto:${process.env.WEB_PUSH_EMAIL}`,
   process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY,
@@ -28,7 +44,14 @@ webPush.setVapidDetails(
 const Notification = (req, res) => {
   if (req.method == 'POST') {
     const { subscription } = req.body
-
+    console.log(req.body);
+    console.log(req.body.subscription.endpoint);
+    console.log(req.body.subscription.keys.auth);
+    console.log(req.body.subscription.keys.p256dh);
+    addKVList('subEndpoints', req.body.subscription.endpoint);
+    addKVList('subAuthKeys', req.body.subscription.keys.auth);
+    addKVList('subP256dhKeys', req.body.subscription.keys.p256dh);
+    // clearKVList();
     webPush
       .sendNotification(
         subscription,
@@ -50,8 +73,9 @@ const Notification = (req, res) => {
     res.statusCode = 405
     res.end()
   }
-  exampleCommands();
-  exampleCommands2();
+  console.log(readKVList('subEndpoints', 0, 10));
+  console.log(readKVList('subAuthKeys', 0, 10));
+  console.log(readKVList('subP256dhKeys', 0, 10));
 }
 
 export default Notification
