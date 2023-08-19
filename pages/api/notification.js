@@ -34,8 +34,8 @@ webPush.setVapidDetails(
 const Notification = (req, res) => {
   if (req.method == 'POST') {
     const { subscription } = req.body
-    addKVList('subs', req.body);
-    // clearKVList();
+    clearKVList();
+    addKVList('subs', subscription);
     webPush
       .sendNotification(
         subscription,
