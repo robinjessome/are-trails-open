@@ -21,13 +21,14 @@ async function readKVvar(keyname) {
 
 async function sendNotifications(trailStatus) {
     console.log("sending notifications");
+    const notificationTitleString = 'The Hydrocut is ' + trailStatus.status;
     const list = await kv.lrange('subs', 0, -1);
     for (let i = 0; i < list.length; i++) {
         var sub = list[i];
         webPush
             .sendNotification(
                 sub,
-                JSON.stringify({ title: 'Hello Web Push', message: 'Your web push notification is here!' })
+                JSON.stringify({ title: notificationTitleString, message: trailStatus.message })
             )
             .catch(err => {
                 console.error(err)
@@ -35,14 +36,17 @@ async function sendNotifications(trailStatus) {
     }
 }
 async function logic(req){
+    // check for api password in request header
+    if(req.headers.password == process.env.TRAILSTATUS_API_PASSWORD){
     let lastUpdated = req.body.updatedAt;
         let lastUpdatedKV = await readKVvar('lastUpdated')
         console.log(lastUpdatedKV);
         if (lastUpdatedKV != lastUpdated) {
             await setKVvar('lastUpdated', lastUpdated);
             await setKVvar('lastStatus', req.body);
-            await sendNotifications(req.body)
+            await sendNotifications(req.body);
 }
+    }
 }
 const TrailStatus = (req, res) => {
     if (req.method == 'POST') {
