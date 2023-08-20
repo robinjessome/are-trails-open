@@ -37,7 +37,7 @@ async function sendNotifications(trailStatus) {
 }
 async function logic(req){
     // check for api password in request header
-    if(req.headers.password == process.env.TRAILSTATUS_API_PASSWORD){
+    if(req.headers.trailStatusAuth == process.env.TRAILSTATUS_API_PASSWORD){
     let lastUpdated = req.body.updatedAt;
         let lastUpdatedKV = await readKVvar('lastUpdated')
         console.log(lastUpdatedKV);
