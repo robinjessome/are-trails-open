@@ -1,0 +1,67 @@
+{
+  "name": "hydrocut trails status",
+  "short_name": "Hydrocut trails status",
+  "start_url": "/",
+  "display": "standalone",
+  "description": "Checks the status of the hydrocut trails, open/closed/snyder",
+  "lang": "English",
+  "dir": "auto",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "img/icons/manifest-icon192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icons/manifest-icon192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "img/icons/manifest-icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icons/manifest-icon512.png ",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/screenshots/dark mode.png",
+      "sizes": "1920x958",
+      "type": "image/png",
+      "description": "A screenshot of the home page in dark mode"
+    },
+    {
+      "src": "img/screenshots/light mode.png",
+      "sizes": "1915x955",
+      "type": "image/png",
+      "description": "A screenshot of the home page in light mode"
+
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "windows",
+      "url": " The URL to your app in that app store"
+    }
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Hydrocut trails status",
+      "url": "/",
+      "description": "Launches the home page for hydrocut trails status"
+    }
+  ]
+}
