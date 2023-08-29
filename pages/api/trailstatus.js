@@ -28,39 +28,37 @@ async function sendNotifications(trailStatus) {
         webPush
             .sendNotification(
                 sub,
-                JSON.stringify({ title: notificationTitleString, message: trailStatus.message })
+                JSON.stringify({ title: notificationTitleString, message: trailStatus.message, icon: trailStatus.imageUrl })
             )
             .catch(err => {
                 console.error(err)
             })
     }
 }
-async function logic(req){
+async function isUpdated(trailStatus) {
     // check for api password in request header
-    if(req.headers.trailStatusAuth == process.env.TRAILSTATUS_API_PASSWORD){
-    let lastUpdated = req.body.updatedAt;
-        let lastUpdatedKV = await readKVvar('lastUpdated')
-        console.log(lastUpdatedKV);
-        if (lastUpdatedKV != lastUpdated) {
-            await setKVvar('lastUpdated', lastUpdated);
-            await setKVvar('lastStatus', req.body);
-            await sendNotifications(req.body);
-}
+    let lastUpdated = trailStatus.updatedAt;
+    let lastUpdatedKV = await readKVvar('lastUpdated')
+    console.log(lastUpdatedKV);
+    if (lastUpdatedKV != lastUpdated) {
+        await setKVvar('lastUpdated', lastUpdated);
+        await setKVvar('lastStatus', trailStatus);
+        await sendNotifications(trailStatus);
     }
 }
 const TrailStatus = (req, res) => {
-    if (req.method == 'POST') {
+    if (req.method == 'POST' && req.headers.trailstatusauth == process.env.TRAILSTATUS_API_PASSWORD) {
         // TODO: take input from JSON request(trailstatus api fetch) and store in in a kv value
-        logic(req).
-                catch(err => {
-                    if ('statusCode' in err) {
-                        res.writeHead(err.statusCode, err.headers).end(err.body)
-                    } else {
-                        console.error(err)
-                        res.statusCode = 500
-                        res.end()
-                    }
-                })
+        isUpdated(req.body).
+            catch(err => {
+                if ('statusCode' in err) {
+                    res.writeHead(err.statusCode, err.headers).end(err.body)
+                } else {
+                    console.error(err)
+                    res.statusCode = 500
+                    res.end()
+                }
+            })
         res.statusCode = 200
         res.end()
     } else {
