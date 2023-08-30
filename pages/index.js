@@ -25,19 +25,6 @@ function HomePage({ trailStatusAPIId, trailName }) {
 
   useEffect(() => {
     setLoading(true)
-    // Notification permissions managing
-    if (Notification.permission === 'denied') {
-      console.log("Notification permissions already denied so no request sent");
-    }
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(function (permission) {
-        console.log("Permission", permission);
-      });
-      console.log("Notification permissions requested due to them being set to default settings(denied)");
-    }
-    if (Notification.permission === 'granted') {
-      console.log("notification permissions set to granted so no request sent");
-    }
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
       // run only in browser
       navigator.serviceWorker.ready.then(reg => {
@@ -60,6 +47,19 @@ function HomePage({ trailStatusAPIId, trailName }) {
 
   const subscribeButtonOnClick = async event => {
     event.preventDefault()
+    // Notification permissions managing
+    if (Notification.permission === 'denied') {
+      console.log("Notification permissions already denied so no request sent");
+    }
+    if (Notification.permission === 'default') {
+      Notification.requestPermission().then(function (permission) {
+        console.log("Permission", permission);
+      });
+      console.log("Notification permissions requested due to them being set to default settings(denied)");
+    }
+    if (Notification.permission === 'granted') {
+      console.log("notification permissions set to granted so no request sent");
+    }
     const sub = await registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: base64ToUint8Array(process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY)
@@ -70,7 +70,7 @@ function HomePage({ trailStatusAPIId, trailName }) {
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({subscription: sub})
+      body: JSON.stringify({ subscription: sub })
     })
 
     setSubscription(sub)
