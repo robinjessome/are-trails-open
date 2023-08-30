@@ -39,11 +39,13 @@ async function isUpdated(trailStatus) {
     // check for api password in request header
     let lastUpdated = trailStatus.updatedAt;
     let lastUpdatedKV = await readKVvar('lastUpdated')
-    console.log(lastUpdatedKV);
+    // console.log(lastUpdated);
     if (lastUpdatedKV != lastUpdated) {
         await setKVvar('lastUpdated', lastUpdated);
         await setKVvar('lastStatus', trailStatus);
         await sendNotifications(trailStatus);
+    } else {
+        console.log("timestamps match");
     }
 }
 const TrailStatus = (req, res) => {
