@@ -44,6 +44,7 @@ async function isUpdated(trailStatus) {
         await setKVvar('lastUpdated', lastUpdated);
         await setKVvar('lastStatus', trailStatus);
         await sendNotifications(trailStatus);
+        console.log("notifications sent");
     } else {
         console.log("timestamps match");
     }
@@ -51,6 +52,7 @@ async function isUpdated(trailStatus) {
 const TrailStatus = (req, res) => {
     if (req.method == 'POST' && req.headers.trailstatusauth == process.env.TRAILSTATUS_API_PASSWORD) {
         // TODO: take input from JSON request(trailstatus api fetch) and store in in a kv value
+        console.log("logic started");
         isUpdated(req.body).
             catch(err => {
                 if ('statusCode' in err) {
