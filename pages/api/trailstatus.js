@@ -25,7 +25,7 @@ async function sendNotifications(trailStatus) {
     const list = await kv.lrange('subs', 0, -1);
     for (let i = 0; i < list.length; i++) {
         var sub = list[i];
-        webPush
+        await webPush
             .sendNotification(
                 sub,
                 JSON.stringify({ title: notificationTitleString, message: trailStatus.message, icon: trailStatus.imageUrl })
