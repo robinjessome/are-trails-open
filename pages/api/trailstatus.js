@@ -53,8 +53,11 @@ const TrailStatus = (req, res) => {
     if (req.method == 'POST' && req.headers.trailstatusauth == process.env.TRAILSTATUS_API_PASSWORD) {
         // TODO: take input from JSON request(trailstatus api fetch) and store in in a kv value
         console.log("logic started");
-        isUpdated(req.body).
-            catch(err => {
+        isUpdated(req.body).then(() => {
+            res.statusCode = 200
+            res.end()
+        })
+            .catch(err => {
                 if ('statusCode' in err) {
                     res.writeHead(err.statusCode, err.headers).end(err.body)
                 } else {
@@ -63,8 +66,6 @@ const TrailStatus = (req, res) => {
                     res.end()
                 }
             })
-        res.statusCode = 200
-        res.end()
     } else {
         res.statusCode = 405
         res.end()
