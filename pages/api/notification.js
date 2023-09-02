@@ -39,7 +39,7 @@ const Notification = (req, res) => {
     webPush
       .sendNotification(
         subscription,
-        JSON.stringify({ title: 'Hello Web Push', message: 'Your web push notification is here!' })
+        JSON.stringify({ title: 'Notifications enabled!', message: 'You are now subscribed to web push notifications for the Hydrocut trails status' })
       )
       .then(response => {
         res.writeHead(response.statusCode, response.headers).end(response.body)
