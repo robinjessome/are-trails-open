@@ -1,5 +1,5 @@
 {
-  "name": "hydrocut trails status",
+  "name": "Hydrocut trails status",
   "short_name": "Hydrocut trails status",
   "start_url": "/",
   "display": "standalone",
@@ -48,20 +48,6 @@
       "type": "image/png",
       "description": "A screenshot of the home page in light mode"
 
-    }
-  ],
-  "related_applications": [
-    {
-      "platform": "windows",
-      "url": " The URL to your app in that app store"
-    }
-  ],
-  "prefer_related_applications": false,
-  "shortcuts": [
-    {
-      "name": "Hydrocut trails status",
-      "url": "/",
-      "description": "Launches the home page for hydrocut trails status"
     }
   ]
 }

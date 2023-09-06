@@ -48,62 +48,35 @@ function HomePage({ trailStatusAPIId, trailName }) {
   const subscribeButtonOnClick = async event => {
     event.preventDefault()
     // Notification permissions managing
-    if (Notification.permission === 'denied') {
-      console.log("Notification permissions already denied so no request sent");
+    if(Notification.permission === 'default' || 'granted'){
+      await Notification.requestPermission()
+      if(Notification.permission === 'granted'){
+        const sub = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: base64ToUint8Array(process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY)
+        })
+        await fetch('/api/notification', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({ subscription: sub })
+        })
+    
+        setSubscription(sub)
+        setIsSubscribed(true)
+        console.log('web push subscribed!')
+      }
     }
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(function (permission) {
-        console.log("Permission", permission);
-      });
-      console.log("Notification permissions requested due to them being set to default settings(denied)");
-    }
-    if (Notification.permission === 'granted') {
-      console.log("notification permissions set to granted so no request sent");
-    }
-    const sub = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: base64ToUint8Array(process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY)
-    })
-    // TODO: you should call your API to save subscription data on server in order to send web push notification from server
-    await fetch('/api/notification', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({ subscription: sub })
-    })
 
-    setSubscription(sub)
-    setIsSubscribed(true)
-    console.log('web push subscribed!')
-    console.log(sub)
   }
 
   const unsubscribeButtonOnClick = async event => {
     event.preventDefault()
     await subscription.unsubscribe()
-    // TODO: you should call your API to delete or invalidate subscription data on server
     setSubscription(null)
     setIsSubscribed(false)
     console.log('web push unsubscribed!')
-  }
-
-  const sendNotificationButtonOnClick = async event => {
-    event.preventDefault()
-    if (subscription == null) {
-      console.error('web push not subscribed')
-      return
-    }
-
-    await fetch('/api/notification', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        subscription
-      })
-    })
   }
 
   let statusMessage, border, trails;
