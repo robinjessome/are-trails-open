@@ -1,6 +1,6 @@
 {
-  "name": "Hydrocut trails status",
-  "short_name": "Hydrocut trails status",
+  "name": "Hydrocut",
+  "short_name": "Hydrocut",
   "start_url": "/",
   "display": "standalone",
   "description": "Checks the status of the hydrocut trails, open/closed/snyder",
