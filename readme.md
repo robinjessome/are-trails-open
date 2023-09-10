@@ -4,12 +4,16 @@ Just a little Next.js practice, leveraging an existing API endpoint from [trails
 
 ## .env variables
 - `TRAILSTATUS_API_ID` - trail id for trailstatusapp endpoint
+- `TRAILSTATUS_API_PASSWORD` - set a password to access trailstatus api endpoint
+Vapid web push details(if you do not already have keys, you can generate them here: {https://www.attheminute.com/vapid-key-generator})
+- `WEB_PUSH_EMAIL` - email
+- `NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY` - public key
+- `WEB_PUSH_PRIVATE_KEY` - private key
+Vercel kv details: get these from vercel storage page of your project
+- `KV_REST_API_READ_ONLY_TOKEN`
+- `KV_REST_API_TOKEN`
+- `KV_REST_API_URL`
+- `KV_URL`
 
 ## next.config variables
 - `trailName` - for the trail name, obviously.
-
-
-
-
-# NOTES(things I had to troubleshoot):
-# if you add assets and are referencing them in manifest.json or html, /public is the root folder so instead of "public/img/icon.png", "img/icon.png" should be used or "/img/icon.png" in index.js
