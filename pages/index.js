@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
-import { IconCheck, IconX, IconBrandInstagram } from '@tabler/icons';
+import { IconCheck, IconX, IconBrandInstagram, IconBellOff, IconBellRingingFilled } from '@tabler/icons-react';
 
 const base64ToUint8Array = base64 => {
   const padding = '='.repeat((4 - (base64.length % 4)) % 4)
@@ -25,19 +25,6 @@ function HomePage({ trailStatusAPIId, trailName }) {
 
   useEffect(() => {
     setLoading(true)
-    // Notification permissions managing
-    if (Notification.permission === 'denied') {
-      console.log("Notification permissions already denied so no request sent");
-    }
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(function (permission) {
-        console.log("Permission", permission);
-      });
-      console.log("Notification permissions requested due to them being set to default settings(denied)");
-    }
-    if (Notification.permission === 'granted') {
-      console.log("notification permissions set to granted so no request sent");
-    }
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
       // run only in browser
       navigator.serviceWorker.ready.then(reg => {
@@ -60,50 +47,36 @@ function HomePage({ trailStatusAPIId, trailName }) {
 
   const subscribeButtonOnClick = async event => {
     event.preventDefault()
-    const sub = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: base64ToUint8Array(process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY)
-    })
-    // TODO: you should call your API to save subscription data on server in order to send web push notification from server
-    await fetch('/api/notification', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({subscription: sub})
-    })
+    // Notification permissions managing
+    if(Notification.permission === 'default' || 'granted'){
+      await Notification.requestPermission()
+      if(Notification.permission === 'granted'){
+        const sub = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: base64ToUint8Array(process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY)
+        })
+        await fetch('/api/notification', {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({ subscription: sub })
+        })
+    
+        setSubscription(sub)
+        setIsSubscribed(true)
+        console.log('web push subscribed!')
+      }
+    }
 
-    setSubscription(sub)
-    setIsSubscribed(true)
-    console.log('web push subscribed!')
-    console.log(sub)
   }
 
   const unsubscribeButtonOnClick = async event => {
     event.preventDefault()
     await subscription.unsubscribe()
-    // TODO: you should call your API to delete or invalidate subscription data on server
     setSubscription(null)
     setIsSubscribed(false)
     console.log('web push unsubscribed!')
-  }
-
-  const sendNotificationButtonOnClick = async event => {
-    event.preventDefault()
-    if (subscription == null) {
-      console.error('web push not subscribed')
-      return
-    }
-
-    await fetch('/api/notification', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        subscription
-      })
-    })
   }
 
   let statusMessage, border, trails;
@@ -131,6 +104,11 @@ function HomePage({ trailStatusAPIId, trailName }) {
         <title>Is {trailName} open?</title>
       </Head>
       <div className="mt-auto text-slate-900 dark:text-slate-300 p-4 max-w-2xl">
+      <div className="text-right">
+       {isSubscribed 
+       ? <IconBellRingingFilled className="w-6 mr-1 inline-block relative -top-[1px]" onClick={unsubscribeButtonOnClick}/>
+       : <IconBellOff className="w-6 mr-1 inline-block relative -top-[1px]" onClick={subscribeButtonOnClick}/>}
+        </div>
         <div className="text-center">
           <Image src="/img/icons/logo.png" width="200" height="140" alt="" />
         </div>
@@ -139,6 +117,7 @@ function HomePage({ trailStatusAPIId, trailName }) {
             {statusMessage &&
               <h1 className="text-center text-5xl mt-12" dangerouslySetInnerHTML={{ __html: statusMessage }}></h1>
             }
+
             {data?.trails && (
               <div className="mt-6">
                 <p className="text-center">
@@ -188,15 +167,6 @@ function HomePage({ trailStatusAPIId, trailName }) {
           </>
         )}
       </div>
-      <button onClick={subscribeButtonOnClick} disabled={isSubscribed}>
-        Subscribe
-      </button>
-      <button onClick={unsubscribeButtonOnClick} disabled={!isSubscribed}>
-        Unsubscribe
-      </button>
-      <button onClick={sendNotificationButtonOnClick} disabled={!isSubscribed}>
-        Send Notification
-      </button>
     </>
   )
 }
