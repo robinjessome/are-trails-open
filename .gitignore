@@ -1,6 +1,8 @@
+# ignore .env files except for the example environment
 node_modules/
 .next/
-
-# ignore .env files except for the example environment
 .env.*
-!.env.example
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js
+
